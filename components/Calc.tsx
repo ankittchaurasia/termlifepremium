@@ -1,18 +1,19 @@
-import { Text, Select, Modal, SimpleGrid, Alert, Button, NumberInput, SegmentedControl, Paper, Center, Container, Title } from '@mantine/core';
+import { Text, Select, Modal, SimpleGrid, Alert, Button, NumberInput, SegmentedControl, Paper, Center, Container, Table } from '@mantine/core';
 import {useState} from 'react';
 import { useDisclosure } from '@mantine/hooks';
 import { qx } from '@/data/datafile'
 
-function Seg({title, value, setValue, weight, ...textprop}:any){
-    return(
-        <div>
-            <Text {...textprop} fz="sm">{title}</Text>
-            <SegmentedControl size='sm' fullWidth data={[ {label:'Yes', value:weight}, {label:'No', value:'0'} ]} onChange={setValue} value={value} />
-        </div>
-    )
-}
 
 export default function Calculator() {
+    
+    function Seg({title, value, setValue, weight, ...textprop}:any){
+        return(
+            <div>
+                <Text {...textprop} fz="sm">{title}</Text>
+                <SegmentedControl size='sm' fullWidth data={[ {label:'Yes', value:weight}, {label:'No', value:'0'} ]} onChange={setValue} value={value} />
+            </div>
+        )
+    }
 
     const [opened, { open, close }] = useDisclosure(false);
     
@@ -36,13 +37,18 @@ export default function Calculator() {
 
         const BMI =  Number(weight) / ((Number(height)/100) ** 2) //as height is in cm
         const npxValues = (qx as any)[gender].slice(Number(age) - 31).slice(0, 10)
-        const sum_npxValue = npxValues.reduce((a:number, b:number) => a + b, 0)
+    
         const BMI_Weight = BMI > 30 ? '0.03' : BMI < 25 ? '0' : '0.015'
         const factors:string[] = [ BMI_Weight, diabetes, smoke, heart, blood, cancer ]
         const sum_factors: number = factors.reduce((a: number, b: string) => a + Number(b), 0);
 
-        const Premium = Number(plan) * sum_npxValue * ( 1 + sum_factors )
-        setResult([Premium, npxValues.length])
+        const PremiumData = npxValues.map((val: number, index: number) => ({
+            year: index + 1,
+            premium: Number(plan) * val * ( 1 + sum_factors ),
+            age: age + index,
+        }))
+
+        setResult(PremiumData)
         open();
     }
 
@@ -67,9 +73,25 @@ export default function Calculator() {
                 <Center><Button mt={20} onClick={Calculate}>Calculate</Button></Center>
             </Paper>
             {result.length > 0 && 
-            <Modal opened={opened} onClose={close} title="Premium Calculation" centered styles={{title:{fontSize:"1.4rem", fontWeight:"bold", fontFamily:"Verdana"}}}>
-                <Text fz={18}>Estimated Premium is <strong>${result[0].toFixed(2)}</strong></Text>
-                <Text c="dimmed">The Premium is payable every year for {result[1]} year(s) as per your Age</Text>
+            <Modal opened={opened} onClose={close} title="Premium BreakDown Year by Year" centered styles={{title:{fontSize:"1.4rem", fontWeight:"bold", fontFamily:"Verdana"}}}>
+                <Table striped highlightOnHover>
+                    <thead>
+                        <tr>
+                            <th>Year</th>
+                            <th>At Age</th>
+                            <th>Premium</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {result.map((elem:any)=>(
+                            <tr key={elem.year}>
+                                <td>{elem.year}</td>
+                                <td>{elem.age}</td>
+                                <td><strong>${elem.premium.toFixed(2)}</strong></td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </Table>
             </Modal>
             }
         </Container>
