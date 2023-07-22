@@ -3,17 +3,17 @@ import {useState} from 'react';
 import { useDisclosure } from '@mantine/hooks';
 import { qx } from '@/data/datafile'
 
+function Seg({title, value, setValue, weight, ...textprop}:any){
+    return(
+        <div>
+            <Text {...textprop} fz="sm">{title}</Text>
+            <SegmentedControl size='sm' fullWidth data={[ {label:'Yes', value:weight}, {label:'No', value:'0'} ]} onChange={setValue} value={value} />
+        </div>
+    )
+}
 
 export default function Calculator() {
     
-    function Seg({title, value, setValue, weight, ...textprop}:any){
-        return(
-            <div>
-                <Text {...textprop} fz="sm">{title}</Text>
-                <SegmentedControl size='sm' fullWidth data={[ {label:'Yes', value:weight}, {label:'No', value:'0'} ]} onChange={setValue} value={value} />
-            </div>
-        )
-    }
 
     const [opened, { open, close }] = useDisclosure(false);
     
