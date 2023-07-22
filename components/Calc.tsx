@@ -73,7 +73,7 @@ export default function Calculator() {
                 <Center><Button mt={20} onClick={Calculate}>Calculate</Button></Center>
             </Paper>
             {result.length > 0 && 
-            <Modal opened={opened} onClose={close} title="Premium BreakDown Year by Year" centered styles={{title:{fontSize:"1.4rem", fontWeight:"bold", fontFamily:"Verdana"}}}>
+            <Modal opened={opened} onClose={close} title="Premium BreakDown" centered styles={{title:{fontSize:"1.4rem", fontWeight:"bold", fontFamily:"Verdana"}}}>
                 <Table striped highlightOnHover>
                     <thead>
                         <tr>
