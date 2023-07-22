@@ -44,7 +44,6 @@ export default function Calculator() {
         const Premium = Number(plan) * sum_npxValue * ( 1 + sum_factors )
         setResult([Premium, npxValues.length])
         open();
-
     }
 
     return(
@@ -67,10 +66,12 @@ export default function Calculator() {
                 <Seg mt={20} title="Any family history of Cancer?" value={cancer} setValue={setCancer} weight="0.5" />
                 <Center><Button mt={20} onClick={Calculate}>Calculate</Button></Center>
             </Paper>
+            {result && 
             <Modal opened={opened} onClose={close} title="Premium Calculation" centered styles={{title:{fontSize:"1.4rem", fontWeight:"bold", fontFamily:"Verdana"}}}>
                 <Text fz={18}>Estimated Premium is <strong>${result[0].toFixed(2)}</strong></Text>
                 <Text c="dimmed">The Premium is payable every year for {result[1]} year(s) as per your Age</Text>
             </Modal>
+            }
         </Container>
     )
 }
