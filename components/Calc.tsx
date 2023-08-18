@@ -53,12 +53,14 @@ export default function Calculator() {
     }
 
     return(
-        <Container size="sm">
+        <Container size="sm" c="pink">
             <Paper>
                {error && <Alert mb="md" title="Error" color='red' withCloseButton onClose={()=>setError(false)}>Fill All The Inputs Please</Alert>}
+                
                 <Select label="Select Plan" placeholder="Death Benefit Plan" data={[
                     {value:'50000', label:'$50k'}, {value:"40000", label:"$40k"}, {value:"30000", label:"$30k"},
                 ]} onChange={setPlan} value={plan} />
+
                 <NumberInput value={age} onChange={setAge} placeholder="Your age" label="Your age" max={50} min={31} description="This Insurance is valid only for age group 31-50" />
                 <Select value={gender} onChange={setGender} label="Gender" placeholder="Specify your Gender" data={['Male','Female']}  />
                 <SimpleGrid cols={2} spacing="md">
