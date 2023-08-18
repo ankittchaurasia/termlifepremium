@@ -42,9 +42,9 @@ export default function Calculator() {
         const factors:string[] = [ BMI_Weight, diabetes, smoke, heart, blood, cancer ]
         const sum_factors: number = factors.reduce((a: number, b: string) => a + Number(b), 0);
 
-        const PremiumData = npxValues.map((val: number, index: number) => ({
+        const PremiumData = npxValues.map((pj: number, index: number) => ({
             year: index + 1,
-            premium: Number(plan) * val * ( 1 + sum_factors ),
+            premium: Number(plan) * ( 1 + sum_factors ) * pj * 1.04 * 1.20 * 1.06,
             age: age + index,
         }))
 

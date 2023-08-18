@@ -1,5 +1,5 @@
 import Calc from '@/components/Calc'
-import { SimpleGrid, Container, Image, Card, Title, ActionIcon } from '@mantine/core'
+import { Container, Title, ActionIcon } from '@mantine/core'
 import { ActivityHeartbeat } from 'tabler-icons-react';
 
 
